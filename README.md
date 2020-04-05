@@ -89,6 +89,189 @@ ou
 yarn install
 
 
+Fluxo de Trabalho do Yarn
+
+Começar a trabalhar com um gerenciador de pacotes em seu projeto introduz um novo fluxo de trabalho em torno de dependências. O Yarn faz o melhor possível para não te incomodar e tornar cada etapa do fluxo de trabalho simples de entender.
+
+Existem alguns tópicos que você deve saber sobre o fluxo de trabalho básico:
+
+    Criando um novo projeto
+    Adicionando/atualizando/removendo dependências
+    Instalando/reinstalando suas dependências
+    Trabalhando com controle de versão (ex., git)
+    Integração contínua
+
+
+
+Criando um novo projeto
+
+Não importa se você tem um repositório/diretório existente de código, ou se você está começando um projeto completamente novo, adicionar o Yarn funciona da mesma maneira sempre.
+
+No seu terminal/console, no diretório que você deseja adicionar o Yarn (que quase sempre deve ser a raiz do seu projeto), execute o seguinte comando:
+
+yarn init
+
+Isto abrirá um formulário interativo para a criação de um novo projeto do Yarn com as seguintes perguntas:
+
+name [nome] (seu-projeto):
+version [versão] (1.0.0):
+description [descrição]:
+entry point [ponto de entrada] (index.js):
+git repository [repositório git]:
+author [autor]:
+license [licença] (MIT):
+
+Você pode digitar as respostas para cada um dos campos ou apenas dar Enter para usar o valor padrão ou deixar em branco.
+package.json
+
+Agora você deve ter um arquivo package.json contendo algo assim:
+
+{
+  "name": "meu-novo-projeto",
+  "version": "1.0.0",
+  "description": "Descrição do meu novo projeto.",
+  "main": "index.js",
+  "repository": {
+    "url": "https://exemplo.com/seu-usuario/meu-novo-projeto",
+    "type": "git"
+  },
+  "author": "Seu Nome <voce@exemplo.com.br>",
+  "license": "MIT"
+}
+
+Quando você executa yarn init, tudo o que ele faz é criar este arquivo. Nada acontece por baixo dos panos. Você pode editar esse arquivo da forma que quiser.
+
+Seu package.json é usado para armazenar informações sobre seu projeto. Isso inclui o nome do seu projeto, os mantenedores, onde está o código-fonte e, principalmente, quais dependências precisam ser instaladas no projeto.
+
+
+Gerenciando dependências
+
+Existem alguns comandos bastante úteis que você pode usar na hora de adicionar, atualizar ou remover dependências.
+
+Cada comando irá automaticamente atualizar seus arquivos package.json e yarn.lock.
+Adicionando uma dependência
+
+Se você quiser usar outro pacote, primeiro você precisa adicioná-lo como uma dependência. Para isso você deve executar:
+
+yarn add [pacote]
+
+Isto adicionará automaticamente o [pacote] às suas dependências no seu package.json. Ele também irá atualizar seu yarn.lock para refletir a alteração.
+
+  {
+    "name": "meu-pacote",
+    "dependencies": {
++     "pacote-1": "^1.0.0"
+    }
+  }
+
+Você também pode adicionar outros tipos de dependências usando flags:
+
+    yarn add --dev para adicionar às devDependencies
+    yarn add --peer para adicionar às peerDependencies
+    yarn add --optional para adicionar às optionalDependencies
+
+Você pode especificar qual versão de um pacote você deseja instalar especificando ou uma versão ou uma tag junto com a dependência.
+
+yarn add [pacote]@[versão]
+yarn add [pacote]@[tag]
+
+A [versão] ou [tag] especificada será adicionada ao seu package.json e, mais tarde, usada na hora de instalar a dependência.
+
+Por exemplo:
+
+yarn add pacote-1@1.2.3
+yarn add pacote-2@^1.0.0
+yarn add pacote-3@beta
+
+{
+  "dependencies": {
+    "pacote-1": "1.2.3",
+    "pacote-2": "^1.0.0",
+    "pacote-3": "beta"
+  }
+}
+
+Atualizando uma dependência
+
+yarn upgrade [pacote]
+yarn upgrade [pacote]@[versão]
+yarn upgrade [pacote]@[tag]
+
+Isto irá atualizar o seus arquivos package.json e yarn.lock.
+
+  {
+    "name": "meu-pacote",
+    "dependencies": {
+-     "pacote-1": "^1.0.0"
++     "pacote-1": "^2.0.0"
+    }
+  }
+
+Removendo uma dependência
+
+yarn remove [pacote]
+
+Isto irá atualizar o seus arquivos package.json e yarn.lock.
+
+
+Instalando dependências
+
+Se você baixou um pacote a partir do seu sistema de controle de versão, você vai precisar instalar suas dependências.
+
+    Se você estiver adicionando dependências ao seu projeto, essas dependências serão automaticamente instaladas durante esse processo.
+
+Instalando Dependências
+
+O comando yarn install é usado para instalar todas as dependências de um projeto. As dependências são recuperadas do arquivo package.json do seu projeto, e armazenadas no arquivo yarn.lock.
+
+Ao se desenvolver um pacote, a instalação das dependências é feita normalmente após:
+
+    Você ter acabado de baixar o código de um projeto que precisa dessas dependências para funcionar.
+    Outro desenvolvedor no projeto ter adicionado uma nova dependência que você precisa obter.
+
+Opções de instalação
+
+Existem muitas opções úteis na instalação de dependências, entre elas:
+
+    Instalar todas as dependências: yarn ou yarn install
+    Instalar somente uma versão de cada pacote: yarn install --flat
+    Forçar o Yarn a baixar e instalar novamente todos os pacotes: yarn install --force
+    Instalar apenas as dependências de produção: yarn install --production
+
+Veja a lista completa de flags que você pode passar para o yarn install.
+
+
+Trabalhando com controle de versão
+
+Para que as pessoas possam desenvolver ou usar seu pacote com sucesso, você precisa garantir que todos os arquivos necessários estejam marcados no seu sistema de controle de código fonte.
+Arquivos necessários
+
+Os seguintes arquivos devem ser marcados no controle de código fonte para que alguém seja capaz de gerenciar seu pacote:
+
+    package.json: Tem todas as dependências atuais do seu pacote.
+    yarn.lock: Armazena as versões exatas de cada dependência do seu pacote.
+    O código fonte que fornece a funcionalidade do seu pacote.
+
+    Confira o pacote de exemplo do Yarn para ter uma ideia dos requisitos mínimos necessários para um pacote Yarn.
+    
+    
+O Yarn pode ser usado facilmente em vários sistemas de integração contínua. Para acelerar compilações, o diretório de cache do Yarn pode ser salvo entre compilações.
+
+AppVeyor
+CircleCI
+Codeship
+Travis
+Semaphore
+Solano
+
+Selecione o sistema de integração contínua que você está usando nas opções acima
+
+
+
+
+
+
+
 
 
 
