@@ -1,5 +1,5 @@
 # Yarn_Documentação :coffee:
-Yarn documentation from the official website
+Yarn documentação oficial do site 
 
 
 Começando
@@ -46,6 +46,49 @@ Para ter acesso aos executáveis do Yarn globalmente, você precisará configura
 Teste se o Yarn está instalado executando:
 
 yarn --version
+
+
+Utilização
+
+Agora que você tem o Yarn instalado, você pode começar a usá-lo. Veja alguns dos comandos mais comuns que você vai precisar.
+
+Começando um novo projeto
+
+yarn init
+
+Adicionando uma dependência
+
+yarn add [pacote]
+yarn add [pacote]@[versão]
+yarn add [pacote]@[tag]
+
+Adicionando uma dependência a diferentes categorias de dependências
+
+Adicionando a devDependencies, peerDependencies e optionalDependencies, respectivamente:
+
+yarn add [pacote] --dev
+yarn add [pacote] --peer
+yarn add [pacote] --optional
+
+Atualizando uma dependência
+
+yarn upgrade [pacote]
+yarn upgrade [pacote]@[versão]
+yarn upgrade [pacote]@[tag]
+
+Removendo uma dependência
+
+yarn remove [pacote]
+
+Instalando todas as dependências do projeto
+
+yarn
+
+ou
+
+yarn install
+
+
 
 
 
